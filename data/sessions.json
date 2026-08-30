@@ -19,5 +19,12 @@
     "token": "b4fc541ce2698e26608f4fb527f243107316386608e140deafcc5f0ebc466e76",
     "createdAt": "2026-08-30T13:04:17.192Z",
     "expiresAt": "2026-08-30T14:04:17.192Z"
+  },
+  {
+    "id": "fcf0cdab-92db-4495-b445-b23b81b4596f",
+    "userId": "d48b40f2-94f9-40d4-a61a-911cc2bcaa45",
+    "token": "8ceebd0986bee499020452404515033b58e1b3590a8f3ceb4d8641ccc3551cd3",
+    "createdAt": "2026-08-30T13:22:05.879Z",
+    "expiresAt": "2026-08-30T14:22:05.879Z"
   }
 ]

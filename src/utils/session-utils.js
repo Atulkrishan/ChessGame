@@ -1,35 +1,62 @@
 import crypto from "node:crypto";
-
-// sessionId -> { userId, createdAt }
-const sessions = new Map();
+import { readSessions, writeSessions } from "../storage/session-store.js";
 
 const SESSION_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
 
-export function createSession(userId) {
-    const sessionId = crypto.randomBytes(32).toString("hex");
+export async function createSession(userId) {
+    const sessionId = crypto.randomUUID();
 
-    sessions.set(sessionId, {
+    const sessions = await readSessions();
+
+    const createdAt = new Date();
+    const expiresAt = new Date(
+        createdAt.getTime() + SESSION_DURATION_MS
+    );
+
+    const session = {
+        id: sessionId,
         userId,
-        createdAt: Date.now()
-    });
+        createdAt: createdAt.toISOString(),
+        expiresAt: expiresAt.toISOString()
+    };
+
+    sessions.push(session);
+
+    await writeSessions(sessions);
 
     return sessionId;
 }
 
-export function getSession(sessionId) {
-    const session = sessions.get(sessionId);
+export async function getSession(sessionId) {
+    const sessions = await readSessions();
 
-    if (!session) return null;
+    const session = sessions.find(
+        session => session.id === sessionId
+    );
 
-    // Expire old sessions
-    if (Date.now() - session.createdAt > SESSION_DURATION_MS) {
-        sessions.delete(sessionId);
+    if (!session) {
+        return null;
+    }
+
+    if (Date.now() >= new Date(session.expiresAt).getTime()) {
+        const activeSessions = sessions.filter(
+            session => session.id !== sessionId
+        );
+
+        await writeSessions(activeSessions);
+
         return null;
     }
 
     return session;
 }
 
-export function destroySession(sessionId) {
-    sessions.delete(sessionId);
+export async function destroySession(sessionId) {
+    const sessions = await readSessions();
+
+    const activeSessions = sessions.filter(
+        session => session.id !== sessionId
+    );
+
+    await writeSessions(activeSessions);
 }
