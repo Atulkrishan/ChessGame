@@ -1,0 +1,16 @@
+[
+  {
+    "id": "e9880f28-af75-455c-8380-4963b003d630",
+    "username": "player1",
+    "email": "player1@gmail.com",
+    "passwordHash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "createdAt": "2026-08-28T06:48:44.132Z"
+  },
+  {
+    "id": "cfccbc99-e1d4-4014-a8e0-a7880acabf98",
+    "username": "alice",
+    "email": "alice@test.com",
+    "passwordHash": "83cf7e374e83da2ee6ecdca58ad5b28ba38fce568bf9d2a1b9c7ae9cc1fe9e7c",
+    "createdAt": "2026-08-29T04:12:44.116Z"
+  }
+]
