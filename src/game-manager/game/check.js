@@ -100,7 +100,7 @@ function isMyAllMovesFailed(chess){
                 // console.log("All knight moves failed");
             }
             else if(chess.positions[key] === `${me}P${i}`){
-                let allMoves = getAllPawnMoves(key);
+                let allMoves = getAllPawnMoves(key,me);
                 for(let to of allMoves){
                     chess.selectedPiece = chess.positions[key];
                     if(isValidMove(chess,key,to.hexPos)){
@@ -116,7 +116,7 @@ function isMyAllMovesFailed(chess){
                         if(!isKingUnderCheck(chess)) {
                             chess.swapPositions(key,to.hexPos);
                             chess.positions[to.hexPos] = tmp;
-                            console.log(`${me}P${i}helps`);
+                            // console.log(`${me}P${i}helps`);
                             return false;
                         }
 
