@@ -78,8 +78,9 @@ function getLastPieceOnBoard(type,positions){
         if(cnt[i]){
             return i + 1;
         }
-        return 10;
     }
+    
+    return 10;
 }
 
 const initialPositions = mapPositions(createInitialBoard());
