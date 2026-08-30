@@ -83,11 +83,7 @@ export async function router(req, res) {
     // Get current user
     if (method === "GET" && url === "/api/auth/me") {
 
-        if (!requireAuth(req)) {
-
-            sendJSON(res, 401, {
-                error: "Authentication required"
-            });
+        if (! await requireAuth(req,res)) {
 
             return;
         }
@@ -101,11 +97,7 @@ export async function router(req, res) {
     // Get all games
     if (method === "GET" && url === "/api/games") {
 
-        if (!requireAuth(req)) {
-
-            sendJSON(res, 401, {
-                error: "Authentication required"
-            });
+        if (! await requireAuth(req,res)) {
 
             return;
         }
@@ -121,11 +113,7 @@ export async function router(req, res) {
 
     if (gameMatch && method === "GET") {
 
-        if (!requireAuth(req)) {
-
-            sendJSON(res, 401, {
-                error: "Authentication required"
-            });
+        if (! await requireAuth(req,res)) {
 
             return;
         }

@@ -10,6 +10,8 @@ const SESSIONS_FILE = path.join(
     "../../data/sessions.json"
 );
 
+const SESSION_DURATION = 60*60* 1000; // 1 hour
+
 export async function readSessions() {
     try {
         const data = await fs.readFile(SESSIONS_FILE, "utf-8");
@@ -19,7 +21,6 @@ export async function readSessions() {
         }
 
         return JSON.parse(data);
-
     } catch (error) {
         if (error.code === "ENOENT") {
             await fs.writeFile(
@@ -36,9 +37,27 @@ export async function readSessions() {
 }
 
 export async function writeSessions(sessions) {
+    const updatedSessions = sessions.map((session) => {
+        // Don't recreate timestamps if the session already has them
+        if (session.createdAt && session.expiresAt) {
+            return session;
+        }
+
+        const createdAt = new Date();
+        const expiresAt = new Date(
+            createdAt.getTime() + SESSION_DURATION
+        );
+
+        return {
+            ...session,
+            createdAt: createdAt.toISOString(),
+            expiresAt: expiresAt.toISOString()
+        };
+    });
+
     await fs.writeFile(
         SESSIONS_FILE,
-        JSON.stringify(sessions, null, 2),
+        JSON.stringify(updatedSessions, null, 2),
         "utf-8"
     );
 }
